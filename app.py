@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 
-# --- Recommender Class ---
+# class
 class BookRecommender:
     def __init__(self, model, book_pivot, final_rating):
         self.model = model
@@ -36,7 +36,6 @@ class BookRecommender:
         return {"author": "Unknown", "image_url": None}
 
 
-# --- Load Model and Data ---
 model = pickle.load(open('specs/model.pkl', 'rb'))
 book_names = pickle.load(open('specs/book_names.pkl', 'rb'))
 final_rating = pickle.load(open('specs/final_rating.pkl', 'rb'))
@@ -44,15 +43,12 @@ book_pivot = pickle.load(open('specs/book_pivot.pkl', 'rb'))
 
 recommender = BookRecommender(model, book_pivot, final_rating)
 
-# --- Streamlit UI ---
+#UI
 st.set_page_config(page_title="Books Recommender", layout="wide", page_icon="📚")
 st.title(" M01 Book Recommendation System")
 st.write("Select a book to get ML-powered suggestions!")
-
-# --- Simple Dropdown Input ---
 selected_book = st.selectbox("Choose a book you have read before:", book_names)
 
-# --- Show Recommendations ---
 if selected_book and st.button("Show Recommendations"):
     with st.spinner("Finding similar books..."):
         recommended_books = recommender.recommend_books(selected_book)
